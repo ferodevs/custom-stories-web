@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>manage</title>
+        <link rel="stylesheet" href="/style.css">
     </head>
     <body>
         <p><a href="/servers.html">Servers</a></p>
@@ -9,6 +10,7 @@
         <script src="/script.js"></script>
         <script>
             load((user, guild) => {
+                document.getElementById("info").classList.add("spoiler");
                 document.getElementById("info").innerHTML = JSON.stringify({
                     user,
                     guild
