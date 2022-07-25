@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>manage</title>
+    </head>
+    <body>
+        <p><a href="/servers.html">Servers</a></p>
+        <p id="info">Loading guild...</p>
+        
+        <script src="/script.js"></script>
+        <script>
+            load((user, guild) => {
+                document.getElementById("info").innerHTML = JSON.stringify({
+                    user,
+                    guild
+                })
+            }, window.location.hash.slice(1));
+        </script>
+    </body>
+</html>
