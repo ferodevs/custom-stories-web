@@ -3,11 +3,21 @@
         <title>Logging in...</title>
     </head>
     <body>
-        <p>Logging in...</p>
+        <p id="info">Logging in...</p>
 
-        <script>
-            const jwt = window.location.hash.slice(1);
-            alert("JWT: " + jwt);
+        <script type="module">
+            const userReq = await fetch("http://localhost:8001/user", {
+                credentials: "include"
+            });
+
+            const user = await userReq.json();
+
+            if (user.error) {
+                alert(user.error);
+                window.location.href = "/";
+            }
+
+            document.getElementById("info").innerHTML = JSON.stringify(user);
         </script>
     </body>
 </html>
