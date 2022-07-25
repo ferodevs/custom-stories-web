@@ -6,31 +6,37 @@
         <p id="info">Logging in...</p>
 
         <script type="module">
-            const requestUser = () => fetch("http://localhost:8001/user", {
-                credentials: "include"
-            });
-
-            requestUser();
             load();
 
             async function load() {
-                const userReq = await requestUser();
-                const user = await userReq.json();
+                try {
+                    const userReq = await fetch("http://localhost:8001/user", {
+                        credentials: "include"
+                    });
+                    const user = await userReq.json();
 
-                if (user.error) {
-                    switch (user.error) {
-                        case "not_logged_in":
-                            window.location.href = "/";
-                            break;
-                        default:
-                            console.log(user.error);
-                            await load();
-                            break;
+                    if (user.error) {
+                        switch (user.error) {
+                            case "not_logged_in":
+                                window.location.href = "/";
+                                break;
+                            default:
+                                console.log(user.error);
+                                setTimeout(() => {
+                                    load();
+                                }, 1000);
+                                break;
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                document.getElementById("info").innerHTML = JSON.stringify(user);
+                    document.getElementById("info").innerHTML = JSON.stringify(user);
+                } catch(err) {
+                    console.error(err);
+                    setTimeout(() => {
+                        load();
+                    }, 1000);
+                }
             }
         </script>
     </body>
