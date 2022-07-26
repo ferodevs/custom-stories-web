@@ -19,9 +19,13 @@ async function load(execute, guild) {
         }
 
         if (typeof guild === "string") {
-            const guildInfo = user.guilds.manage.find(g => g.id === guild);
-            if (guildInfo) {
-                // add another fetch here that gets server info
+            if (user.guilds.manage.find(g => g.id === guild)) {
+                const guildReq = await fetch(`http://localhost:8001/guild/${guild}`, {
+                    credentials: "include"
+                });
+                const guildInfo = await guildReq.json();
+                if (guildInfo.error) return window.location.href = "servers.html";
+
                 return execute(user.user, guildInfo);
             }
 

@@ -5,6 +5,7 @@
     </head>
     <body>
         <p><a href="/">Home</a></p>
+        <p>The server list can take up to a minute to update.</p>
         <p><a href="http://localhost:8001/oauth2/logout">Logout</a></p>
 
         <p id="info">Getting servers...</p>
@@ -13,7 +14,6 @@
         <script src="/script.js"></script>
         <script>
             load(info => {
-                document.getElementById("info").classList.add("spoiler");
                 document.getElementById("info").innerHTML = JSON.stringify(info);
 
                 const guilds = [];

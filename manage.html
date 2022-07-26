@@ -6,15 +6,20 @@
     <body>
         <p><a href="/servers.html">Servers</a></p>
         <p id="info">Loading guild...</p>
+
+        <div id="content"></div>
         
         <script src="/script.js"></script>
         <script>
             load((user, guild) => {
-                document.getElementById("info").classList.add("spoiler");
                 document.getElementById("info").innerHTML = JSON.stringify({
                     user,
                     guild
-                })
+                });
+
+                document.getElementById("content").innerHTML = `
+                    <h3>${guild.info.name}</h3>
+                `;
             }, window.location.hash.slice(1));
         </script>
     </body>
