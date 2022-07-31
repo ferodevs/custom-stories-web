@@ -2,15 +2,15 @@ const escapeHTML = c => c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/
 
 async function load(execute, guild) {
     try {
-        const userReq = await fetch("http://localhost:8001/user", {
-            credentials: "include"
+        const userReq = await fetch('http://localhost:8001/user', {
+            credentials: 'include'
         });
         const user = await userReq.json();
 
         if (user.error) {
             switch (user.error) {
-                case "not_logged_in":
-                    window.location.href = "http://localhost:8001/oauth2/login";
+                case 'not_logged_in':
+                    window.location.href = 'http://localhost:8001/oauth2/login';
                     break;
                 default:
                     throw user.error;
@@ -18,13 +18,13 @@ async function load(execute, guild) {
             return;
         }
 
-        if (typeof guild === "string") {
+        if (typeof guild === 'string') {
             if (user.guilds.manage.find(g => g.id === guild)) {
                 const guildReq = await fetch(`http://localhost:8001/guild/${guild}`, {
-                    credentials: "include"
+                    credentials: 'include'
                 });
                 const guildInfo = await guildReq.json();
-                if (guildInfo.error) return window.location.href = "servers.html";
+                if (guildInfo.error) return window.location.href = 'servers.html';
 
                 return execute(user.user, guildInfo);
             }
@@ -32,7 +32,7 @@ async function load(execute, guild) {
             if (user.guilds.invite.find(g => g.id === guild)) {
                 return window.location.href = `http://localhost:8001/oauth2/generate/${guild}`;
             } else {
-                return window.location.href = "servers.html";
+                return window.location.href = 'servers.html';
             }
         } else {
             execute(user);

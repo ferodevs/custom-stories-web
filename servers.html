@@ -14,7 +14,7 @@
         <script src="/script.js"></script>
         <script>
             load(info => {
-                document.getElementById("info").innerHTML = JSON.stringify(info);
+                document.getElementById('info').innerHTML = JSON.stringify(info);
 
                 const guilds = [];
 
@@ -27,18 +27,18 @@
                                 `https://customrpg.xyz/assets/images/logo.png`
                             }" width=100>
                             
-                            ${guild.name} (click to ${info.guilds.manage.find(g => guild.id === g.id) ? "manage" : "invite"})
+                            ${guild.name} (click to ${info.guilds.manage.find(g => guild.id === g.id) ? 'manage' : 'invite'})
                         </a>
                     `);
                 }
 
-                document.getElementById("content").innerHTML = `
+                document.getElementById('content').innerHTML = `
                     <!-- Make sure to check if the user doesn't have an avatar too. -->
                     <img src="https://cdn.discordapp.com/avatars/${info.user.id}/${info.user.avatar}">
 
                     <h3>Hey, ${escapeHTML(info.user.username)}</h3><br><br>
 
-                    ${guilds.join("<br><br>")}
+                    ${guilds.join('<br><br>')}
                 `;
             });
         </script>

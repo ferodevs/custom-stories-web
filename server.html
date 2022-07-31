@@ -16,12 +16,12 @@
             load((user, guild) => {
                 guildID = guild.info.id;
 
-                document.getElementById("info").innerHTML = JSON.stringify({
+                document.getElementById('info').innerHTML = JSON.stringify({
                     user,
                     guild
                 });
 
-                document.getElementById("content").innerHTML = `
+                document.getElementById('content').innerHTML = `
                     <h3>${guild.info.name}</h3>
 
                     <h4>Overview</h4>
@@ -42,6 +42,7 @@
 
                     <h4>Data</h4>
                     <p>
+                        <button onclick="window.location.href='http://localhost:8001/guild/${guild.info.id}/download'">Download</button>
                         <button onclick="resetServer()">Reset</button>
                     </p>
                 `;
@@ -49,7 +50,7 @@
 
             async function setSettings() {
                 const res = await fetch(`http://localhost:8001/guild/${guildID}/settings`, {
-                    credentials: "include",
+                    credentials: 'include',
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -67,12 +68,12 @@
 
             async function resetServer() {
                 const res = await fetch(`http://localhost:8001/guild/${guildID}/reset`, {
-                    credentials: "include",
+                    credentials: 'include',
                     method: 'delete'
                 });
 
                 alert(await res.text());
-                return window.location.reload();
+                return window.location.href = '/servers.html';
             }
         </script>
     </body>
