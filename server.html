@@ -11,7 +11,11 @@
         
         <script src="/script.js"></script>
         <script>
+            let guildID;
+
             load((user, guild) => {
+                guildID = guild.info.id;
+
                 document.getElementById("info").innerHTML = JSON.stringify({
                     user,
                     guild
@@ -25,12 +29,51 @@
                         Plan: <code>??</code> / <code>${guild.settings.plan}</code> server parts.
                     </p>
                     <p>
+                        Language: <select id="language">
+                            <option value="en-US">English</option>
+                        </select><br>
                         Default embed color: #<input id="default-embed-color" value="${guild.settings.defaultEmbedColor}"><br>
                         Start part: <input id="start-part" type="number" value="${guild.settings.startPart}"><br>
                         Maximum save files: <input id="maximum-save-files" value="${guild.settings.maxSaveFiles}">
                     </p>
+                    <p>
+                        <button onclick="setSettings()">Set</button>
+                    </p>
+
+                    <h4>Data</h4>
+                    <p>
+                        <button onclick="resetServer()">Reset</button>
+                    </p>
                 `;
             }, window.location.hash.slice(1));
+
+            async function setSettings() {
+                const res = await fetch(`http://localhost:8001/guild/${guildID}/settings`, {
+                    credentials: "include",
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        language: document.getElementById('language').value,
+                        defaultEmbedColor: document.getElementById('default-embed-color').value,
+                        startPart: Number(document.getElementById('start-part').value),
+                        maxSaveFiles: Number(document.getElementById('maximum-save-files').value)
+                    })
+                });
+
+                return alert(await res.text());
+            }
+
+            async function resetServer() {
+                const res = await fetch(`http://localhost:8001/guild/${guildID}/reset`, {
+                    credentials: "include",
+                    method: 'delete'
+                });
+
+                alert(await res.text());
+                return window.location.reload();
+            }
         </script>
     </body>
 </html>
