@@ -45,7 +45,7 @@
 
                     <h4>Data</h4>
                     <p>
-                        <button onclick="window.location.href='http://localhost:8001/guild/${guild.info.id}/download'">Download</button>
+                        <button onclick="window.location.href='http://localhost:8001/guild/${guild.info.id}/data/download'">Download</button>
                         <button onclick="resetServer()">Reset</button>
                     </p>
                 `;
@@ -70,7 +70,7 @@
             }
 
             async function resetServer() {
-                const res = await fetch(`http://localhost:8001/guild/${guildID}/reset`, {
+                const res = await fetch(`http://localhost:8001/guild/${guildID}/data/reset`, {
                     credentials: 'include',
                     method: 'delete'
                 });
