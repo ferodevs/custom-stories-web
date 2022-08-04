@@ -9,7 +9,7 @@ async function load(execute, guild) {
 
         if (user.error) {
             switch (user.error) {
-                case 'not_logged_in':
+                case 'not logged in':
                     window.location.href = 'http://localhost:8001/oauth2/login';
                     break;
                 default:
