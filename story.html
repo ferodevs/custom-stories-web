@@ -12,8 +12,16 @@
         <script src="/script.js"></script>
         <script>
             let guildID;
+            let storyID;
 
-            load((user, guild) => {
+            if (window.location.hash.split('#').length <= 2) {
+                guildID = window.location.hash.slice(1);
+            } else {
+                storyID = encodeURIComponent(window.location.hash.split('#').slice(-1)[0]);
+                guildID = window.location.hash.slice(1, -(++storyID.length));
+            }
+
+            load(async (user, guild) => {
                 guildID = guild.info.id;
 
                 document.getElementById('info').innerHTML = JSON.stringify({
@@ -22,12 +30,96 @@
                 });
 
                 document.getElementById('content').innerHTML = `
-                    <h3>${guild.info.name}</h3>
+                <button onclick="window.location.href='server.html#${guild.info.id}'">Overview / Data</button> <button onclick="window.location.href='stories.html#${guildID}'">Stories</button>
 
-                    <h4>test story</h4>
+                    <h3>${guild.info.name} - ${storyID ? `Modify story part #${storyID}.` : 'Create story part.'}</h3>
                     
+                    <p>
+                        Title: <input id="title"><br>
+                        Description:<br><textarea id="description"></textarea><br>
+                        Image: <input id="image">
+                    </p>
+
+                    <p>
+                        Color: <input type="color" id="color"><br>
+                        <input type="checkbox" id="use-default-color"> Use default.
+                    </p>
+
+                    <p>
+                        Choices: WIP
+                    </p>
+
+                    <p><button onclick="modifyStory()">${storyID ? 'Modify' : 'Create'}</button></p>
                 `;
-            }, window.location.hash.split('#').length <= 2 ? window.location.hash.slice(1) : window.location.hash.slice(1, -(++window.location.hash.split('#').slice(-1)[0].length)));
+
+                document.getElementById('use-default-color').onchange = evt => {
+                    document.getElementById('color').disabled = evt.target.checked;
+                    if (evt.target.checked === true) document.getElementById('color').value = `#${guild.settings.defaultEmbedColor}`;
+                }
+
+                if (storyID) {
+                    const { story, error } = await getStory();
+
+                    if (error) {
+                        alert(error);
+                        return window.location.href = `stories.html#${guildID}`;
+                    }
+
+                    document.getElementById('title').value = story.title;
+                    document.getElementById('description').value = story.description;
+                    document.getElementById('image').value = story.image;
+
+                    if (story.color) {
+                        document.getElementById('color').value = `#${story.color}`;
+                    } else {
+                        document.getElementById('use-default-color').click(); // .checked = true
+                    }
+
+                    // story.choices
+                }
+            }, guildID);
+            
+            async function getStory() {
+                const storiesReq = await fetch(`http://localhost:8001/guild/${guildID}/stories/${storyID}`, {
+                    credentials: 'include'
+                });
+                
+                return await storiesReq.json();
+            }
+
+            async function modifyStory() {
+                const res = await fetch(`http://localhost:8001/guild/797095798507700264/stories/${storyID || ''}`, {
+                    credentials: 'include',
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        image: document.getElementById('image').value,
+                        color: document.getElementById('use-default-color').checked ? null : document.getElementById('color').value.slice(1),
+                        choices: [
+                            /*
+                            {
+                                type: 'goto',
+                                style: 1,
+                                label: 'test',
+                                emoji: {
+                                    name: '🎈'
+                                },
+                                goto: 1
+                            }
+                            */
+                        ]
+                    })
+                });
+
+                const response = await res.json();
+                if (response.errors) return alert(JSON.stringify(response.errors));
+
+                window.location.href = `stories.html#${guildID}`;
+            }
         </script>
     </body>
 </html>

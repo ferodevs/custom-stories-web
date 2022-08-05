@@ -33,7 +33,7 @@
                         Language: <select id="language">
                             <option value="en-US">English</option>
                         </select><br>
-                        Default embed color: #<input id="default-embed-color" value="${guild.settings.defaultEmbedColor}"><br>
+                        Default embed color: <input id="default-embed-color" type="color" value="#${guild.settings.defaultEmbedColor}"><br>
                         Start part: <input id="start-part" type="number" value="${guild.settings.startPart}"><br>
                         Maximum save files: <input id="maximum-save-files" value="${guild.settings.maxSaveFiles}">
                     </p>
@@ -62,7 +62,7 @@
                     },
                     body: JSON.stringify({
                         language: document.getElementById('language').value,
-                        defaultEmbedColor: document.getElementById('default-embed-color').value,
+                        defaultEmbedColor: document.getElementById('default-embed-color').value.slice(1),
                         startPart: Number(document.getElementById('start-part').value),
                         maxSaveFiles: Number(document.getElementById('maximum-save-files').value)
                     })
