@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>story</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <p><a href="/servers.html">Servers</a></p>
+        <p id="info">Loading guild...</p>
+
+        <div id="content"></div>
+        
+        <script src="/script.js"></script>
+        <script>
+            let guildID;
+
+            load((user, guild) => {
+                guildID = guild.info.id;
+
+                document.getElementById('info').innerHTML = JSON.stringify({
+                    user,
+                    guild
+                });
+
+                document.getElementById('content').innerHTML = `
+                    <h3>${guild.info.name}</h3>
+
+                    <h4>test story</h4>
+                    
+                `;
+            }, window.location.hash.split('#').length <= 2 ? window.location.hash.slice(1) : window.location.hash.slice(1, -(++window.location.hash.split('#').slice(-1)[0].length)));
+        </script>
+    </body>
+</html>
