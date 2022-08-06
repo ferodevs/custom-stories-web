@@ -20,7 +20,7 @@ load((user, guild) => {
 }, window.location.hash.slice(1));
 
 async function getStories() {
-    const storiesReq = await fetch(`http://localhost:8001/guild/${guildID}/stories`, {
+    const storiesReq = await fetch(`${server}/guild/${guildID}/stories`, {
         credentials: 'include'
     });
     
@@ -59,7 +59,7 @@ async function getStories() {
 }
 
 async function deletePart(id) {
-    const res = await fetch(`http://localhost:8001/guild/797095798507700264/stories/${id}`, {
+    const res = await fetch(`${server}/guild/797095798507700264/stories/${id}`, {
         credentials: 'include',
         method: 'delete'
     });

@@ -30,7 +30,7 @@ load((user, guild) => {
 
         <h4>Data</h4>
         <p>
-            <button onclick="window.location.href='http://localhost:8001/guild/${guild.info.id}/data/download'">Download</button>
+            <button onclick="window.location.href='${server}/guild/${guild.info.id}/data/download'">Download</button>
             <!-- <button onclick="uploadServer()">Upload</button> -->
             <button onclick="resetServer()">Reset</button>
         </p>
@@ -38,7 +38,7 @@ load((user, guild) => {
 }, window.location.hash.slice(1));
 
 async function setSettings() {
-    const res = await fetch(`http://localhost:8001/guild/${guildID}/settings`, {
+    const res = await fetch(`${server}/guild/${guildID}/settings`, {
         credentials: 'include',
         method: 'post',
         headers: {
@@ -75,7 +75,7 @@ document.getElementById('uploadData').addEventListener('change', function() { //
             return alert('Not a valid file.');
         }
 
-        const res = await fetch(`http://localhost:8001/guild/${guildID}/data/reset`, {
+        const res = await fetch(`${server}/guild/${guildID}/data/reset`, {
             credentials: 'include',
             method: 'delete'
         });
@@ -88,7 +88,7 @@ document.getElementById('uploadData').addEventListener('change', function() { //
 */
 
 async function resetServer(redirect = true) {
-    const res = await fetch(`http://localhost:8001/guild/${guildID}/data/reset`, {
+    const res = await fetch(`${server}/guild/${guildID}/data/reset`, {
         credentials: 'include',
         method: 'delete'
     });

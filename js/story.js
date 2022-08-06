@@ -126,7 +126,7 @@ function deleteChoice(r) {
 }
 
 async function getStory() {
-    const storiesReq = await fetch(`http://localhost:8001/guild/${guildID}/stories/${storyID}`, {
+    const storiesReq = await fetch(`${server}/guild/${guildID}/stories/${storyID}`, {
         credentials: 'include'
     });
     
@@ -148,7 +148,7 @@ async function modifyStory() {
         })
     }
 
-    const res = await fetch(`http://localhost:8001/guild/797095798507700264/stories/${storyID || ''}`, {
+    const res = await fetch(`${server}/guild/797095798507700264/stories/${storyID || ''}`, {
         credentials: 'include',
         method: 'post',
         headers: {
