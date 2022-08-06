@@ -2,8 +2,6 @@ load((user, guild) => {
     guildID = guild.info.id;
 
     document.getElementById('content').innerHTML = `
-        <p><button onclick="window.location.href='parts.html#${guild.info.id}'">Story parts</button></p>
-
         <h3>${guild.info.name} - Overview</h3>
 
         <p>
@@ -20,6 +18,9 @@ load((user, guild) => {
         <p>
             <button onclick="setSettings()">Save</button>
         </p>
+
+        <h4>Story</h4>
+        <p><button onclick="window.location.href='parts.html#${guild.info.id}'">Story parts</button></p>
 
         <h4>Data</h4>
         <p>
