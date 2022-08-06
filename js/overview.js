@@ -2,11 +2,12 @@ load((user, guild) => {
     guildID = guild.info.id;
 
     document.getElementById('content').innerHTML = `
-        <h3>${guild.info.name}</h3>
+        <p><button onclick="window.location.href='parts.html#${guild.info.id}'">Story parts</button></p>
 
-        <h4>Overview</h4>
+        <h3>${guild.info.name} - Overview</h3>
+
         <p>
-            Plan: <code>??</code> / <code>${guild.settings.plan}</code> story parts.
+            Plan: <code>${guild.storyLength}</code> / <code>${guild.settings.plan}</code> story parts.
         </p>
         <p>
             Language: <select id="language">
@@ -19,9 +20,6 @@ load((user, guild) => {
         <p>
             <button onclick="setSettings()">Save</button>
         </p>
-
-        <h4>Story</h4>
-        <p><button onclick="window.location.href='parts.html#${guild.info.id}'">Story parts</button></p>
 
         <h4>Data</h4>
         <p>

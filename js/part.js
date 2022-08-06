@@ -11,7 +11,7 @@ load(async (user, guild) => {
     guildID = guild.info.id;
 
     document.getElementById('content').innerHTML = `
-    <button onclick="window.location.href='overview.html#${guild.info.id}'">Overview</button> <button onclick="window.location.href='parts.html#${guildID}'">Story parts</button>
+        <button onclick="window.location.href='parts.html#${guildID}'">Story parts</button> <button onclick="window.location.href='overview.html#${guild.info.id}'">Overview</button>
 
         <h3>${guild.info.name} - ${storyPartID ? `Modify story part #${storyPartID}` : 'Create story part'}</h3>
         
