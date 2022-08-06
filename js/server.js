@@ -22,11 +22,11 @@ load((user, guild) => {
             Maximum save files: <input id="maximum-save-files" value="${guild.settings.maxSaveFiles}">
         </p>
         <p>
-            <button onclick="setSettings()">Set</button>
+            <button onclick="setSettings()">Save</button>
         </p>
 
-        <h4>Stories</h4>
-        <p><button onclick="window.location.href='stories.html#${guild.info.id}'">Stories</button></p>
+        <h4>Story</h4>
+        <p><button onclick="window.location.href='parts.html#${guild.info.id}'">Story parts</button></p>
 
         <h4>Data</h4>
         <p>

@@ -9,57 +9,56 @@ load((user, guild) => {
     document.getElementById('content').innerHTML = `
         <button onclick="window.location.href='server.html#${guild.info.id}'">Overview / Data</button>
 
-        <h3>${guild.info.name} - Stories</h3>
+        <h3>${guild.info.name} - Story Parts</h3>
 
-        <p><button onclick="window.location.href='story.html#${guild.info.id}'">Create story part.</button></p>
+        <p><button onclick="window.location.href='part.html#${guild.info.id}'">Create story part.</button></p>
 
-        <div id="stories"></div>
+        <div id="parts"></div>
     `;
 
-    getStories();
+    getParts();
 }, window.location.hash.slice(1));
 
-async function getStories() {
-    const storiesReq = await fetch(`${server}/guild/${guildID}/stories`, {
+async function getParts() {
+    const partsReq = await fetch(`${server}/guild/${guildID}/parts`, {
         credentials: 'include'
     });
     
-    const { stories, error } = await storiesReq.json();
+    const { parts, error } = await partsReq.json();
     if (error) return alert(error);
 
-    if (stories.length) {
-        const storiesHTML = [];
-        for (const part of stories) {
-            console.log(part)
-            storiesHTML.push(`
+    if (parts.length) {
+        const partsHTML = [];
+        for (const part of parts) {
+            partsHTML.push(`
                 <tr>
                     <td>${part.id}</td>
                     <td>${escapeHTML(part.title || part.description || part.image)}</td>
                     <td>
-                        <button onclick="window.location.href='story.html#${guildID}#${part.id}'">Modify</button>
+                        <button onclick="window.location.href='part.html#${guildID}#${part.id}'">Modify</button>
                         <button onclick="deletePart('${part.id}')">Delete</button>
                     </td>
                 </tr>
             `);
         }
 
-        document.getElementById('stories').innerHTML = `
+        document.getElementById('parts').innerHTML = `
             <table>
                 <tr>
                     <th>ID</th>
                     <th>Content</th>
                     <th>Manage</th>
                 </tr>
-                ${storiesHTML.join('')}
+                ${partsHTML.join('')}
             </table>
         `;
     } else {
-        document.getElementById('stories').innerHTML = 'There are no story parts in this server currently.';
+        document.getElementById('parts').innerHTML = 'There are no story parts in this server currently.';
     }
 }
 
 async function deletePart(id) {
-    const res = await fetch(`${server}/guild/797095798507700264/stories/${id}`, {
+    const res = await fetch(`${server}/guild/797095798507700264/parts/${id}`, {
         credentials: 'include',
         method: 'delete'
     });

@@ -1,10 +1,10 @@
-let storyID;
+let storyPartID;
 
 if (window.location.hash.split('#').length <= 2) {
     guildID = window.location.hash.slice(1);
 } else {
-    storyID = encodeURIComponent(window.location.hash.split('#').slice(-1)[0]);
-    guildID = window.location.hash.slice(1, -(++storyID.length));
+    storyPartID = encodeURIComponent(window.location.hash.split('#').slice(-1)[0]);
+    guildID = window.location.hash.slice(1, -(++storyPartID.length));
 }
 
 load(async (user, guild) => {
@@ -16,9 +16,9 @@ load(async (user, guild) => {
     });
 
     document.getElementById('content').innerHTML = `
-    <button onclick="window.location.href='server.html#${guild.info.id}'">Overview / Data</button> <button onclick="window.location.href='stories.html#${guildID}'">Stories</button>
+    <button onclick="window.location.href='server.html#${guild.info.id}'">Overview / Data</button> <button onclick="window.location.href='parts.html#${guildID}'">Story parts</button>
 
-        <h3>${guild.info.name} - ${storyID ? `Modify story part #${storyID}.` : 'Create story part.'}</h3>
+        <h3>${guild.info.name} - ${storyPartID ? `Modify story part #${storyPartID}` : 'Create story part'}</h3>
         
         <p>
             Title: <input id="title"><br>
@@ -45,7 +45,7 @@ load(async (user, guild) => {
             </table>
         </p>
 
-        <p><button onclick="modifyStory()">${storyID ? 'Modify' : 'Create'}</button></p>
+        <p><button onclick="modifyStoryPart()">${storyPartID ? 'Modify' : 'Create'}</button></p>
     `;
 
     document.getElementById('use-default-color').onchange = evt => {
@@ -53,25 +53,27 @@ load(async (user, guild) => {
         if (evt.target.checked === true) document.getElementById('color').value = `#${guild.settings.defaultEmbedColor}`;
     }
 
-    if (storyID) {
-        const { story, error } = await getStory();
+    if (storyPartID) {
+        const { part, error } = await getStoryPart();
 
         if (error) {
             alert(error);
-            return window.location.href = `stories.html#${guildID}`;
+            return window.location.href = `parts.html#${guildID}`;
         }
+        
+        document.title = `Modifying story part #${part.id}. - Custom Stories`;
 
-        document.getElementById('title').value = story.title;
-        document.getElementById('description').value = story.description;
-        document.getElementById('image').value = story.image;
+        document.getElementById('title').value = part.title;
+        document.getElementById('description').value = part.description;
+        document.getElementById('image').value = part.image;
 
-        if (story.color) {
-            document.getElementById('color').value = `#${story.color}`;
+        if (part.color) {
+            document.getElementById('color').value = `#${part.color}`;
         } else {
             document.getElementById('use-default-color').click(); // .checked = true
         }
 
-        for (const choice of story.choices) {
+        for (const choice of part.choices) {
             addChoice(choice);
         }
     }
@@ -125,15 +127,15 @@ function deleteChoice(r) {
     document.getElementById('choices').deleteRow(r.parentNode.parentNode.rowIndex);
 }
 
-async function getStory() {
-    const storiesReq = await fetch(`${server}/guild/${guildID}/stories/${storyID}`, {
+async function getStoryPart() {
+    const partsReq = await fetch(`${server}/guild/${guildID}/parts/${storyPartID}`, {
         credentials: 'include'
     });
     
-    return await storiesReq.json();
+    return await partsReq.json();
 }
 
-async function modifyStory() {
+async function modifyStoryPart() {
     const choices = [];
 
     for (const row of [ ...document.getElementById('choices').rows ].slice(1)) {
@@ -148,7 +150,7 @@ async function modifyStory() {
         })
     }
 
-    const res = await fetch(`${server}/guild/797095798507700264/stories/${storyID || ''}`, {
+    const res = await fetch(`${server}/guild/797095798507700264/parts/${storyPartID || ''}`, {
         credentials: 'include',
         method: 'post',
         headers: {
@@ -166,5 +168,5 @@ async function modifyStory() {
     const response = await res.json();
     if (response.errors) return alert(JSON.stringify(response.errors));
 
-    window.location.href = `stories.html#${guildID}`;
+    window.location.href = `parts.html#${guildID}`;
 }
