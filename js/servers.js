@@ -1,11 +1,9 @@
 load(info => {
-    document.getElementById('info').innerHTML = JSON.stringify(info);
-
     const guilds = [];
 
     for (const guild of info.guilds.manage.concat(info.guilds.invite)) {
         guilds.push(`
-            <a href="/server.html#${guild.id}">
+            <a href="/overview.html#${guild.id}">
                 <img src="${
                     guild.icon ? 
                     `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` :

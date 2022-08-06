@@ -1,13 +1,8 @@
 load((user, guild) => {
     guildID = guild.info.id;
 
-    document.getElementById('info').innerHTML = JSON.stringify({
-        user,
-        guild
-    });
-
     document.getElementById('content').innerHTML = `
-        <button onclick="window.location.href='server.html#${guild.info.id}'">Overview / Data</button>
+        <button onclick="window.location.href='overview.html#${guild.info.id}'">Overview</button>
 
         <h3>${guild.info.name} - Story Parts</h3>
 

@@ -1,11 +1,6 @@
 load((user, guild) => {
     guildID = guild.info.id;
 
-    document.getElementById('info').innerHTML = JSON.stringify({
-        user,
-        guild
-    });
-
     document.getElementById('content').innerHTML = `
         <h3>${guild.info.name}</h3>
 
@@ -31,7 +26,6 @@ load((user, guild) => {
         <h4>Data</h4>
         <p>
             <button onclick="window.location.href='${server}/guild/${guild.info.id}/data/download'">Download</button>
-            <!-- <button onclick="uploadServer()">Upload</button> -->
             <button onclick="resetServer()">Reset</button>
         </p>
     `;
@@ -55,39 +49,7 @@ async function setSettings() {
     return alert(await res.text());
 }
 
-/*
-function uploadServer() {
-    document.getElementById('uploadData').click();
-}
-
-document.getElementById('uploadData').addEventListener('change', function() { // () => {}; does not work here.
-    if (!this.files.length) return;
-
-    if (this.files[0].size > 500000) return alert('The file is too large.');
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-        let data;
-        try {
-            data = JSON.parse(reader.result);
-        } catch(err) {
-            return alert('Not a valid file.');
-        }
-
-        const res = await fetch(`${server}/guild/${guildID}/data/reset`, {
-            credentials: 'include',
-            method: 'delete'
-        });
-
-        alert(await res.text());
-    };
-
-    reader.readAsText(this.files[0]);
-});
-*/
-
-async function resetServer(redirect = true) {
+async function resetServer() {
     const res = await fetch(`${server}/guild/${guildID}/data/reset`, {
         credentials: 'include',
         method: 'delete'
