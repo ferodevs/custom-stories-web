@@ -22,8 +22,8 @@ load(async (user, guild) => {
         </p>
 
         <p>
-            Color: <input type="color" id="color"><br>
-            <input type="checkbox" id="use-default-color"> Use default.
+            Color: <input type="color" id="color" disabled><br>
+            <input type="checkbox" id="use-default-color" checked> Use default.
         </p>
 
         <p>
@@ -42,6 +42,8 @@ load(async (user, guild) => {
 
         <p><button onclick="modifyStoryPart()">${storyPartID ? 'Modify' : 'Create'}</button></p>
     `;
+
+    document.getElementById('color').value = `#${guild.settings.defaultEmbedColor}`;
 
     document.getElementById('use-default-color').onchange = evt => {
         document.getElementById('color').disabled = evt.target.checked;
@@ -63,9 +65,8 @@ load(async (user, guild) => {
         document.getElementById('image').value = part.image;
 
         if (part.color) {
+            document.getElementById('use-default-color').click(); // .checked = false
             document.getElementById('color').value = `#${part.color}`;
-        } else {
-            document.getElementById('use-default-color').click(); // .checked = true
         }
 
         for (const choice of part.choices) {
