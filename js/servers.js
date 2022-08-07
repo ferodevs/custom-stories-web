@@ -17,9 +17,11 @@ load(info => {
 
     document.getElementById('content').innerHTML = `
         <!-- Make sure to check if the user doesn't have an avatar too. -->
-        <img src="https://cdn.discordapp.com/avatars/${info.user.id}/${info.user.avatar}">
+        <!-- <img src="https://cdn.discordapp.com/avatars/${info.user.id}/${info.user.avatar}"> -->
 
-        <h3>Hey, ${escapeHTML(info.user.username)}</h3><br><br>
+        <h3>Hey, ${escapeHTML(info.user.username)}!</h3>
+        <p>Select a server you want to manage below.</p>
+        <br><br>
 
         ${guilds.join('<br><br>')}
     `;
