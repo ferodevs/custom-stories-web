@@ -146,7 +146,7 @@ async function modifyStoryPart() {
         })
     }
 
-    const res = await fetch(`${server}/guild/797095798507700264/parts/${storyPartID || ''}`, {
+    const res = await fetch(`${server}/guild/${guildID}/parts/${storyPartID || ''}`, {
         credentials: 'include',
         method: 'post',
         headers: {

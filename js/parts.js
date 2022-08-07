@@ -53,7 +53,7 @@ async function getParts() {
 }
 
 async function deletePart(id) {
-    const res = await fetch(`${server}/guild/797095798507700264/parts/${id}`, {
+    const res = await fetch(`${server}/guild/${guildID}/parts/${id}`, {
         credentials: 'include',
         method: 'delete'
     });
