@@ -21,7 +21,7 @@ load(info => {
 
         <h3>Hey, ${escapeHTML(info.user.username)}!</h3>
         <p>Select a server you want to manage below.</p>
-        <br><br>
+        <br>
 
         ${guilds.join('<br><br>')}
     `;
