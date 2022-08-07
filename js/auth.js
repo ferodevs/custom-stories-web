@@ -1,6 +1,6 @@
 const escapeHTML = c => c.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/\'/g, '&#39;').replace(/\//g, '&#x2F;');
 
-const server = 'https://stories_api.customrpg.xyz';
+const server = 'https://stories-api.customrpg.xyz';
 let guildID;
 
 async function load(execute, guild) {
